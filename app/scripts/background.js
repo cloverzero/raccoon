@@ -193,13 +193,13 @@ chrome.runtime.onConnect.addListener(function (port) {
         chrome.webRequest.onBeforeSendHeaders.addListener(connection.handlers.beforeSendHeadersHandler, {
           'urls': ['<all_urls>'],
           'tabId': message.tabId,
-          'types': ['xmlhttprequest']
+          'types': ['xmlhttprequest', 'script']
         }, ['blocking', 'requestHeaders']);
         // 请求结束清理 Cookie 缓存
         chrome.webRequest.onCompleted.addListener(connection.handlers.onCompletedHandler, {
           'urls': ['<all_urls>'],
           'tabId': message.tabId,
-          'types': ['xmlhttprequest']
+          'types': ['xmlhttprequest', 'script']
         });
 
         return;
@@ -217,21 +217,21 @@ chrome.runtime.onConnect.addListener(function (port) {
           chrome.webRequest.onBeforeRequest.addListener(connection.handlers.beforeRequestHandler, {
             'urls': ['<all_urls>'],
             'tabId': message.tabId,
-            'types': ['xmlhttprequest']
+            'types': ['xmlhttprequest', 'script']
           }, ['blocking']);
 
           // 添加 header，让 data api 出错时直接跳转到原地址
           chrome.webRequest.onBeforeSendHeaders.addListener(connection.handlers.amoebaReqBeforeSendHeadersHandler, {
             'urls': [CONFIG.api + '/data/*'],
             'tabId': message.tabId,
-            'types': ['xmlhttprequest', 'other']
+            'types': ['xmlhttprequest', 'script', 'other']
           }, ['blocking', 'requestHeaders']);
 
           // add CROS headers
           chrome.webRequest.onHeadersReceived.addListener(connection.handlers.headersReceivedHandler, {
             'urls': ['<all_urls>'],
             'tabId': message.tabId,
-            'types': ['xmlhttprequest', 'other']
+            'types': ['xmlhttprequest', 'script', 'other']
           }, ['blocking', 'responseHeaders']);
         }
         return;

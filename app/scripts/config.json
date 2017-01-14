@@ -1,4 +1,4 @@
 {
-  "api": "https://amoeba-api.herokuapp.com",
-  "console": "https://amoeba.services"
+  "api": "http://localhost:3000",
+  "console": "http://localhost:4200"
 }
