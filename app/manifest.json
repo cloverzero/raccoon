@@ -1,6 +1,6 @@
 {
     "name": "__MSG_appName__",
-    "version": "0.1.9",
+    "version": "0.1.11",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "icons": {
@@ -15,6 +15,7 @@
     "options_page": "options.html",
     "devtools_page": "devtools-page.html",
     "permissions": [
+        "storage",
         "tabs",
         "webRequest",
         "webRequestBlocking",

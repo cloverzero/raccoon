@@ -4,7 +4,10 @@
 //  console.log('previousVersion', details.previousVersion);
 //});
 //
-var CONFIG = require('./config');
+var OPTIONS = require('./config');
+chrome.storage.sync.get(function (options) {
+  OPTIONS = options;
+});
 
 var panelConnections = {};
 var requestsCookies = {};
@@ -22,7 +25,7 @@ function beforeRequestHandler(details) {
     console.error('namspace is not set for tab ' + details.tabId);
     return;
   }
-  var redirectUrl = CONFIG.api + '/data/' + namespace + '/';
+  var redirectUrl = OPTIONS.host + '/data/' + namespace + '/';
   if (originalUrl.indexOf('?') === -1) {
     originalUrl += '?';
   }
@@ -193,13 +196,13 @@ chrome.runtime.onConnect.addListener(function (port) {
         chrome.webRequest.onBeforeSendHeaders.addListener(connection.handlers.beforeSendHeadersHandler, {
           'urls': ['<all_urls>'],
           'tabId': message.tabId,
-          'types': ['xmlhttprequest', 'script']
+          'types': OPTIONS.blockingTypes
         }, ['blocking', 'requestHeaders']);
         // 请求结束清理 Cookie 缓存
         chrome.webRequest.onCompleted.addListener(connection.handlers.onCompletedHandler, {
           'urls': ['<all_urls>'],
           'tabId': message.tabId,
-          'types': ['xmlhttprequest', 'script']
+          'types': OPTIONS.blockingTypes
         });
 
         return;
@@ -217,21 +220,21 @@ chrome.runtime.onConnect.addListener(function (port) {
           chrome.webRequest.onBeforeRequest.addListener(connection.handlers.beforeRequestHandler, {
             'urls': ['<all_urls>'],
             'tabId': message.tabId,
-            'types': ['xmlhttprequest', 'script']
+            'types': OPTIONS.blockingTypes
           }, ['blocking']);
 
           // 添加 header，让 data api 出错时直接跳转到原地址
           chrome.webRequest.onBeforeSendHeaders.addListener(connection.handlers.amoebaReqBeforeSendHeadersHandler, {
-            'urls': [CONFIG.api + '/data/*'],
+            'urls': [OPTIONS.host + '/data/*'],
             'tabId': message.tabId,
-            'types': ['xmlhttprequest', 'script', 'other']
+            'types': OPTIONS.blockingTypes.concat('other')
           }, ['blocking', 'requestHeaders']);
 
           // add CROS headers
           chrome.webRequest.onHeadersReceived.addListener(connection.handlers.headersReceivedHandler, {
             'urls': ['<all_urls>'],
             'tabId': message.tabId,
-            'types': ['xmlhttprequest', 'script', 'other']
+            'types': OPTIONS.blockingTypes.concat('other')
           }, ['blocking', 'responseHeaders']);
         }
         return;

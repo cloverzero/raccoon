@@ -1,3 +1,77 @@
 body {
-  padding: 20px;
+  margin: 0;
+  padding: 0;
+  background: #f6f6f6;
+}
+
+.page-header {
+  padding: 15px;
+  height: 45px;
+  color: #4f3985;
+  border-bottom: 8px solid currentColor;
+}
+
+.page-header h1 {
+  margin: 0;
+  padding-left: 50px;
+  height: 45px;
+  line-height: 45px;
+  background: url('../images/amoeba-logo-128.png') left center no-repeat;
+  background-size: contain;
+}
+
+.main-content {
+  margin: 0 15px;
+}
+
+.settings-group {
+  position: relative;
+  padding: 15px 20px;
+  border-top: 1px solid #dbdada;
+}
+
+.settings-group:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.settings-group > header {
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  font-weight: bolder;
+}
+
+input {
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 7px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.default-button {
+  border: 1px solid currentColor;
+  color: #4f3985;
+  background: #fff;
+}
+
+.primary-button {
+  color: #fff;
+  border: 1px solid #4f3985;
+  background: #4f3985;
+}
+
+.result-container {
+  margin-left: 15px;
+  font-weight: bolder;
 }

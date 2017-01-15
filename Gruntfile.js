@@ -230,7 +230,7 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('build', [
-    'jshint',
+    // 'jshint',
     'clean:dist',
     'copy:dist',
     'clean:temp',
@@ -242,7 +242,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('debug', [
-    'bower:install',
+    // 'bower:install',
     'build',
     'watch'
   ]);

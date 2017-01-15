@@ -6,6 +6,30 @@ var CONFIG = require('./config'),
   React = require('react/addons'),
   Utils = require('./utils');
 
+var NAMESPACES = [
+  'playground'
+];
+
+chrome.storage.sync.get(function (options) {
+  CONFIG = options;
+  var xhr = new XMLHttpRequest();
+  var url = CONFIG.host + "/namespaces";
+  xhr.open('get', url);
+  xhr.send();
+  xhr.onload = function () {
+    var result = JSON.parse(xhr.responseText);
+    result.forEach(function (item) {
+      NAMESPACES.push(item.name);
+    });
+    NAMESPACES.concat(result);
+    var statusBar = React.render(
+      <StatusBar namespaces={NAMESPACES}/>,
+      document.getElementById('status-bar')
+    );
+    statusBar.changeNamespace(localStorage.getItem('selectedNamespace') || NAMESPACES[0]);
+  };
+});
+
 CodeMirror.modeURL = 'vendor/codemirror/codemirror/mode/%N/%N.js'; // 好恶心
 
 /* jshint ignore:start */
@@ -13,11 +37,6 @@ CodeMirror.modeURL = 'vendor/codemirror/codemirror/mode/%N/%N.js'; // 好恶心
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-55081859-3', 'auto');
-ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
-ga('send', 'pageview', '/devtools-panel.html');
-/* jshint ignore:end */
 
 var backgroundPageConnection = chrome.runtime.connect({
   name: 'devtools-panel'
@@ -198,7 +217,7 @@ var RequestInfo = React.createClass({
       amoebaStatusText = ' ' + (info.amoeba.status ? (info.amoeba.status + ' ' + info.amoeba.message) : '-'),
       path = info.amoeba.matchedApi || uri.path,
       namespace = statusBar && statusBar.state.selectedNamespace,
-      amoebaConsole = CONFIG.console + '/api/' + namespace + '/' + encodeURIComponent(path);
+      amoebaConsole = CONFIG.host + '/api/' + namespace + '/' + encodeURIComponent(path);
     return (
       <tr className="request-info-item" data-active={this.props.request.active}>
         <td className="method" title={info.request.method}>{info.request.method}</td>
@@ -396,16 +415,10 @@ var StatusBar = React.createClass({
   }
 });
 
-var NAMESPACES = [
-  'playground',
-  'pc',
-  'mis'
-];
 var statusBar = React.render(
   <StatusBar namespaces={NAMESPACES}/>,
   document.getElementById('status-bar')
 );
-statusBar.changeNamespace(localStorage.getItem('selectedNamespace') || NAMESPACES[0]);
 
 chrome.devtools.network.onRequestFinished.addListener(function(request){
   var requests = reqTable.state.requests;

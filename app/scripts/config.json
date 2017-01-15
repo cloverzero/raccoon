@@ -1,4 +1,4 @@
 {
-  "api": "http://localhost:3000",
-  "console": "http://localhost:4200"
+  "host": "https://amoeba-api.herokuapp.com",
+  "blockingTypes": ["xmlhttprequest"]
 }

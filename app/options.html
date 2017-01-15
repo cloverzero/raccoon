@@ -1,12 +1,49 @@
 <!doctype html>
 <html>
-    <head>
-        <link href="styles/main.css" rel="stylesheet">
-    </head>
-    <body>
-        <h1>'Allo, 'Allo!</h1>
-        <script src="bower_components/lodash/dist/lodash.js"></script>
-        <script src="bower_components/react/react.js"></script>
-        <script src="scripts/options.js"></script>
-    </body>
+<head>
+  <link href="styles/main.css" rel="stylesheet">
+  <link href="vendor/octicons/octicons/octicons.css" rel="stylesheet">
+</head>
+<body>
+<header class="page-header">
+  <h1>Amoeba Plus</h1>
+</header>
+<div class="main-content">
+  <div class="page-title">
+    <h2><span class="octicon octicon-tools"></span> Amoeba Plus Settings</h2>
+  </div>
+  <section class="settings-group">
+    <header><span class="octicon octicon-server"></span> Sever Settings</header>
+    <label>
+      Server Host:
+      <input type="url" id="host" style="width: 50vw">
+    </label>
+    <button type="button" class="default-button" id="testButton">Test</button>
+    <span id="testResult" class="result-container"></span>
+  </section>
+
+  <section class="settings-group">
+    <header><span class="octicon octicon-three-bars"></span> Blocking Types</header>
+    <div>
+      <label>
+        <input type="checkbox" name="blocking" value="xmlhttprequest" checked> XHR
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" name="blocking" value="script"> Script (JSONP Needed)
+      </label>
+    </div>
+  </section>
+
+  <section class="settings-group" id="saveButton">
+    <button class="primary-button">
+      <span class="octicon octicon-check"></span>
+      Save
+    </button>
+    <span id="saveResult" class="result-container"></span>
+  </section>
+</div>
+<script src="scripts/options.js"></script>
+</body>
 </html>
