@@ -33,6 +33,9 @@ function clearSaveResult() {
 saveButton.addEventListener('click', function () {
   var options = {};
   options.host = hostInput.value;
+  if (options.host.endsWith('/')) {
+    options.host = options.host.substr(0, options.host.length - 1);
+  }
   var blockingTypes = [];
   checkboxes.forEach(function (input) {
     if (input.checked === true) {

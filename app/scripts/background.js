@@ -1,12 +1,13 @@
 'use strict';
 
-//chrome.runtime.onInstalled.addListener(function (details) {
-//  console.log('previousVersion', details.previousVersion);
-//});
-//
+chrome.runtime.onInstalled.addListener(function () {
+  chrome.runtime.openOptionsPage();
+});
+
 var OPTIONS = require('./config');
-chrome.storage.sync.get(function (options) {
+chrome.storage.sync.get(OPTIONS, function (options) {
   OPTIONS = options;
+  console.log(OPTIONS);
 });
 
 var panelConnections = {};

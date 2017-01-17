@@ -10,7 +10,7 @@ var NAMESPACES = [
   'playground'
 ];
 
-chrome.storage.sync.get(function (options) {
+chrome.storage.sync.get(CONFIG, function (options) {
   CONFIG = options;
   var xhr = new XMLHttpRequest();
   var url = CONFIG.host + "/namespaces";
